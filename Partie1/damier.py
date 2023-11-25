@@ -76,7 +76,6 @@ class Damier:
             bool: True si la position est dans les bornes, False autrement.
 
         """
-        wa wa wa
         # TODO: À compléter
 
     def piece_peut_se_deplacer_vers(self, position_piece, position_cible):
