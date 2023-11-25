@@ -1,7 +1,7 @@
 # Auteurs: À compléter
 
-from tp3.Partie1.piece import Piece
-from tp3.Partie1.position import Position
+from Partie1.piece import Piece
+from Partie1.position import Position
 
 
 class Damier:
@@ -19,9 +19,7 @@ class Damier:
     """
 
     def __init__(self):
-        """Constructeur du Damier. Initialise un damier initial de 8 lignes par 8 colonnes.
-
-        """
+        """Constructeur du Damier. Initialise un damier initial de 8 lignes par 8 colonnes."""
         self.n_lignes = 8
         self.n_colonnes = 8
 
@@ -78,7 +76,7 @@ class Damier:
             bool: True si la position est dans les bornes, False autrement.
 
         """
-        #TODO: À compléter
+        # TODO: À compléter
 
     def piece_peut_se_deplacer_vers(self, position_piece, position_cible):
         """Cette méthode détermine si une pièce (à la position reçue) peut se déplacer à une certaine position cible.
@@ -99,7 +97,7 @@ class Damier:
             bool: True si la pièce peut se déplacer à la position cible, False autrement.
 
         """
-        #TODO: À compléter
+        # TODO: À compléter
 
     def piece_peut_sauter_vers(self, position_piece, position_cible):
         """Cette méthode détermine si une pièce (à la position reçue) peut sauter vers une certaine position cible.
@@ -119,7 +117,7 @@ class Damier:
             bool: True si la pièce peut sauter vers la position cible, False autrement.
 
         """
-        #TODO: À compléter
+        # TODO: À compléter
 
     def piece_peut_se_deplacer(self, position_piece):
         """Vérifie si une pièce à une certaine position a la possibilité de se déplacer (sans faire de saut).
@@ -134,7 +132,7 @@ class Damier:
             bool: True si une pièce est à la position reçue et celle-ci peut se déplacer, False autrement.
 
         """
-        #TODO: À compléter
+        # TODO: À compléter
 
     def piece_peut_faire_une_prise(self, position_piece):
         """Vérifie si une pièce à une certaine position a la possibilité de faire une prise.
@@ -150,7 +148,7 @@ class Damier:
             bool: True si une pièce est à la position reçue et celle-ci peut faire une prise. False autrement.
 
         """
-        #TODO: À compléter
+        # TODO: À compléter
 
     def piece_de_couleur_peut_se_deplacer(self, couleur):
         """Vérifie si n'importe quelle pièce d'une certaine couleur reçue en argument a la possibilité de se déplacer
@@ -164,7 +162,7 @@ class Damier:
         Returns:
             bool: True si une pièce de la couleur reçue peut faire un déplacement standard, False autrement.
         """
-        #TODO: À compléter
+        # TODO: À compléter
 
     def piece_de_couleur_peut_faire_une_prise(self, couleur):
         """Vérifie si n'importe quelle pièce d'une certaine couleur reçue en argument a la possibilité de faire un
@@ -179,7 +177,7 @@ class Damier:
         Returns:
             bool: True si une pièce de la couleur reçue peut faire un saut (une prise), False autrement.
         """
-        #TODO: À compléter
+        # TODO: À compléter
 
     def deplacer(self, position_source, position_cible):
         """Effectue le déplacement sur le damier. Si le déplacement est valide, on doit mettre à jour le dictionnaire
@@ -204,8 +202,7 @@ class Damier:
                 "erreur" autrement.
 
         """
-        #TODO: À compléter
-
+        # TODO: À compléter
 
     def __repr__(self):
         """Cette méthode spéciale permet de modifier le comportement d'une instance de la classe Damier pour
@@ -214,10 +211,10 @@ class Damier:
         """
         s = " +-0-+-1-+-2-+-3-+-4-+-5-+-6-+-7-+\n"
         for i in range(0, 8):
-            s += str(i)+"| "
+            s += str(i) + "| "
             for j in range(0, 8):
                 if Position(i, j) in self.cases:
-                    s += str(self.cases[Position(i, j)])+" | "
+                    s += str(self.cases[Position(i, j)]) + " | "
                 else:
                     s += "  | "
             s += "\n +---+---+---+---+---+---+---+---+\n"
@@ -232,7 +229,7 @@ if __name__ == "__main__":
 
     # TODO: À compléter
 
-    print('Test unitaires passés avec succès!')
+    print("Test unitaires passés avec succès!")
 
     # NOTEZ BIEN: Pour vous aider lors du développement, affichez le damier!
     print(un_damier)
