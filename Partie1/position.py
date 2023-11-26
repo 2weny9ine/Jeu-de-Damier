@@ -76,7 +76,7 @@ class Position:
         la ligne et la colonne de l'objet actuel et de l'autre objet.
 
         """
-        return self.ligne == other.ligne and self.colonne == other.colonne
+        return (self.ligne, self.colonne) == (other.ligne, other.colonne)
 
     def __repr__(self):
         """Méthode spéciale indiquant à Python comment représenter une instance de Position par une chaîne de
