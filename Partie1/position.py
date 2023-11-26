@@ -92,7 +92,7 @@ class Position:
             https://fr.wikipedia.org/wiki/Fonction_de_hachage
 
         """
-        return hash(str(self))
+        return hash((self.ligne, self.colonne))
 
 
 
