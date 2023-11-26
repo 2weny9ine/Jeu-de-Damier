@@ -76,7 +76,11 @@ class Damier:
             bool: True si la position est dans les bornes, False autrement.
 
         """
-        # TODO: À compléter
+        if (position.ligne) >= 0 and (position.ligne) < 8:
+            if (position.colonne) >= 0 and (position.colonne) < 8:
+                return True
+        else:
+            return False
 
     def piece_peut_se_deplacer_vers(self, position_piece, position_cible):
         """Cette méthode détermine si une pièce (à la position reçue) peut se déplacer à une certaine position cible.
