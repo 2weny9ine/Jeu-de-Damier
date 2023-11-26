@@ -83,7 +83,7 @@ class Position:
         caractères. Notamment utilisé pour imprimer une position à l'écran.
 
         """
-        return '({}, {})'.format(self.ligne, self.colonne)
+        return f'({self.ligne}, {self.colonne})'
 
     def __hash__(self):
         """Méthode spéciale indiquant à Python comment "hasher" une Position. Cette méthode est nécessaire si on veut
