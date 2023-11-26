@@ -102,24 +102,18 @@ class Damier:
 
         """
         piece = self.recuperer_piece_a_position(position_piece)
+        if piece == None:
+            return False
         if (
             self.position_est_dans_damier(position_cible)
             and self.recuperer_piece_a_position(position_cible) == None
         ):
             if piece.est_pion and piece.est_blanche:
-                if position_cible.ligne == (position_piece.ligne) - 1:
-                    if (
-                        position_cible.colonne == (position_piece.colonne) + 1
-                        or position_cible.colonne == (position_piece.colonne) - 1
-                    ):
-                        return True
+                if position_cible in Position.positions_diagonales_haut(position_piece):
+                    return True
             elif piece.est_pion and piece.est_noire:
-                if position_cible.ligne == (position_piece.ligne) + 1:
-                    if (
-                        position_cible.colonne == (position_piece.colonne) + 1
-                        or position_cible.colonne == (position_piece.colonne) - 1
-                    ):
-                        return True
+                if position_cible in Position.positions_diagonales_bas(position_piece):
+                    return True
             elif piece.est_dame:
                 if position_cible.ligne != (
                     position_piece.ligne
@@ -146,7 +140,48 @@ class Damier:
             bool: True si la pièce peut sauter vers la position cible, False autrement.
 
         """
-        # TODO: À compléter
+        piece = self.recuperer_piece_a_position(position_piece)
+        if piece == None:
+            return False
+        if (
+            self.position_est_dans_damier(position_cible)
+            and self.recuperer_piece_a_position(position_cible) == None
+        ):
+            if position_cible in Position.quatre_positions_sauts(position_piece):
+                if (
+                    position_cible.ligne < position_piece.ligne
+                    and position_cible.colonne > position_piece.colonne
+                ):
+                    piece_a_manger = self.recuperer_piece_a_position(
+                        Position(position_piece.ligne - 1, position_piece.colonne + 1)
+                    )
+                elif (
+                    position_cible.ligne < position_piece.ligne
+                    and position_cible.colonne < position_piece.colonne
+                ):
+                    piece_a_manger = self.recuperer_piece_a_position(
+                        Position(position_piece.ligne - 1, position_piece.colonne - 1)
+                    )
+                elif (
+                    position_cible.ligne > position_piece.ligne
+                    and position_cible.colonne > position_piece.colonne
+                ):
+                    piece_a_manger = self.recuperer_piece_a_position(
+                        Position(position_piece.ligne + 1, position_piece.colonne + 1)
+                    )
+                elif (
+                    position_cible.ligne > position_piece.ligne
+                    and position_cible.colonne < position_piece.colonne
+                ):
+                    piece_a_manger = self.recuperer_piece_a_position(
+                        Position(position_piece.ligne + 1, position_piece.colonne - 1)
+                    )
+            if piece.est_blanche and piece_a_manger.est_noire:
+                return True
+            elif piece.est_noire and piece_a_manger.est_blanche:
+                return True
+            else:
+                return False
 
     def piece_peut_se_deplacer(self, position_piece):
         """Vérifie si une pièce à une certaine position a la possibilité de se déplacer (sans faire de saut).
