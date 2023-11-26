@@ -101,7 +101,32 @@ class Damier:
             bool: True si la pièce peut se déplacer à la position cible, False autrement.
 
         """
-        # TODO: À compléter
+        piece = self.recuperer_piece_a_position(position_piece)
+        if (
+            self.position_est_dans_damier(position_cible)
+            and self.recuperer_piece_a_position(position_cible) == None
+        ):
+            if piece.est_pion and piece.est_blanche:
+                if position_cible.ligne == (position_piece.ligne) - 1:
+                    if (
+                        position_cible.colonne == (position_piece.colonne) + 1
+                        or position_cible.colonne == (position_piece.colonne) - 1
+                    ):
+                        return True
+            elif piece.est_pion and piece.est_noire:
+                if position_cible.ligne == (position_piece.ligne) + 1:
+                    if (
+                        position_cible.colonne == (position_piece.colonne) + 1
+                        or position_cible.colonne == (position_piece.colonne) - 1
+                    ):
+                        return True
+            elif piece.est_dame:
+                if position_cible.ligne != (
+                    position_piece.ligne
+                ) and position_cible.colonne != (position_piece.colonne):
+                    return True
+            else:
+                return False
 
     def piece_peut_sauter_vers(self, position_piece, position_cible):
         """Cette méthode détermine si une pièce (à la position reçue) peut sauter vers une certaine position cible.
