@@ -49,7 +49,8 @@ class Position:
             list: La liste des deux positions.
 
         """
-        #TODO: À compléter
+
+        return [position(self.ligne - 1, self.colonne - 1) , position(self.ligne -1 , self.colonne + 1)]
 
     def quatre_positions_diagonales(self):
         """Retourne une liste contenant les quatre positions diagonales à partir de la position actuelle.
