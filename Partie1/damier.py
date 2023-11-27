@@ -1,7 +1,7 @@
 # Auteurs: À compléter
 
-from Partie1.piece import Piece
-from Partie1.position import Position
+from piece import Piece
+from position import Position
 
 
 class Damier:
@@ -76,9 +76,8 @@ class Damier:
             bool: True si la position est dans les bornes, False autrement.
 
         """
-        if (position.ligne) >= 0 and (position.ligne) < 8:
-            if (position.colonne) >= 0 and (position.colonne) < 8:
-                return True
+        if 0 <= (position.ligne) <= 7 and 0 <= (position.colonne) <= 7:
+            return True
         else:
             return False
 
@@ -106,7 +105,8 @@ class Damier:
             return False
         if (
             self.position_est_dans_damier(position_cible)
-            and self.recuperer_piece_a_position(position_cible) == None
+            and self.recuperer_piece_a_position(position_cible)
+            == None  # to check if the position_cible exists and it's empty
         ):
             if piece.est_pion and piece.est_blanche:
                 if position_cible in Position.positions_diagonales_haut(position_piece):
@@ -121,6 +121,8 @@ class Damier:
                     return True
             else:
                 return False
+        else:
+            return False
 
     def piece_peut_sauter_vers(self, position_piece, position_cible):
         """Cette méthode détermine si une pièce (à la position reçue) peut sauter vers une certaine position cible.
@@ -290,8 +292,9 @@ if __name__ == "__main__":
     print('Test unitaires de la classe "Damier"...')
 
     un_damier = Damier()
-
-    # TODO: À compléter
+    assert un_damier.position_est_dans_damier(position=Position(5, 0)) == True
+    assert un_damier.position_est_dans_damier(position=Position(-1, 0)) == False
+    assert un_damier.position_est_dans_damier(position=Position(0, 8)) == False
 
     print("Test unitaires passés avec succès!")
 
