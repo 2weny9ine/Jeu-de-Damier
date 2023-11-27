@@ -75,6 +75,8 @@ class Position:
             Position(self.ligne + 2, self.colonne - 2),
             Position(self.ligne + 2, self.colonne + 2)
         ]
+    #try this if that one doesn't work :
+    # return [Position(self.ligne + i, self.colonne + j) for i in [-2, 2] for j in [-2, 2]]
 
     def __eq__(self, other):
         """Méthode spéciale indiquant à Python comment vérifier si deux positions sont égales. On compare simplement
