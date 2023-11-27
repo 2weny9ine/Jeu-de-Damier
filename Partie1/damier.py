@@ -152,7 +152,7 @@ class Damier:
         piece = self.recuperer_piece_a_position(position_piece)
         if piece is None:
             return False  # to check if the position_piece not empty
-        if (
+        elif (
             self.position_est_dans_damier(position_cible)
             and self.recuperer_piece_a_position(position_cible)
             is None  # to check if the position_cible exists and it's empty
@@ -188,7 +188,9 @@ class Damier:
                     )
             else:
                 return False
-            if piece.est_blanche() and piece_a_manger.est_noire():
+            if piece_a_manger is None:
+                return False
+            elif piece.est_blanche() and piece_a_manger.est_noire():
                 return True
             elif piece.est_noire() and piece_a_manger.est_blanche():
                 return True
@@ -337,24 +339,49 @@ if __name__ == "__main__":
         )
         == False  # position_cible pas dans diagonale
     )
-
-    print("Test unitaires passés avec succès!")
-
-    # NOTEZ BIEN: Pour vous aider lors du développement, affichez le damier!
-    un_damier.cases[Position(4, 3)] = Piece(couleur="noir", type_de_piece="pion")
-    print(
-        un_damier.recuperer_piece_a_position(Position(4, 3))
-    )  # we added a pion noir to test piece_peut_sauter_vers
     print(un_damier)
-    print(Position(5, 0).positions_diagonales_bas())
-    print(Position(5, 0).positions_diagonales_haut())
-    print(Position(5, 0).quatre_positions_diagonales())
-    print(Position(5, 2).quatre_positions_sauts())
-
+    un_damier.cases[Position(4, 3)] = Piece(couleur="noir", type_de_piece="pion")
+    # we added a pion noir to test piece_peut_sauter_vers
+    print(un_damier)
     assert (
         un_damier.piece_peut_sauter_vers(
             position_piece=Position(5, 2), position_cible=Position(3, 4)
         )
         == True
     )
+    assert (
+        un_damier.piece_peut_sauter_vers(
+            position_piece=Position(5, 4), position_cible=Position(3, 6)
+        )
+        == False
+    )
+    assert (
+        un_damier.piece_peut_sauter_vers(
+            position_piece=Position(5, 4), position_cible=Position(3, 2)
+        )
+        == True
+    )
+    assert (
+        un_damier.piece_peut_sauter_vers(
+            position_piece=Position(5, 4), position_cible=Position(3, 2)
+        )
+        == True
+    )
+    assert (
+        un_damier.piece_peut_sauter_vers(
+            position_piece=Position(5, 3), position_cible=Position(3, 3)
+        )
+        == False
+    )
+    un_damier.cases[Position(3, 6)] = Piece(couleur="blanc", type_de_piece="pion")
+    # we added a pion blanc to test piece_peut_sauter_vers
     print(un_damier)
+    assert (
+        un_damier.piece_peut_sauter_vers(
+            position_piece=Position(2, 7), position_cible=Position(4, 5)
+        )
+        == True
+    )
+    print("Test unitaires passés avec succès!")
+
+    # NOTEZ BIEN: Pour vous aider lors du développement, affichez le damier!
