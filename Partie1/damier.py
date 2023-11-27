@@ -345,7 +345,7 @@ if __name__ == "__main__":
     print(
         un_damier.recuperer_piece_a_position(Position(4, 3))
     )  # we added a pion noir to test piece_peut_sauter_vers
-    """print(un_damier)
+    print(un_damier)
     print(Position(5, 0).positions_diagonales_bas())
     print(Position(5, 0).positions_diagonales_haut())
     print(Position(5, 0).quatre_positions_diagonales())
@@ -356,5 +356,5 @@ if __name__ == "__main__":
             position_piece=Position(5, 2), position_cible=Position(3, 4)
         )
         == True
-    )"""
+    )
     print(un_damier)
