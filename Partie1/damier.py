@@ -1,7 +1,7 @@
 # Auteurs: À compléter
 
-from Partie1.piece import Piece
-from Partie1.position import Position
+from piece import Piece
+from position import Position
 
 
 class Damier:
@@ -76,9 +76,8 @@ class Damier:
             bool: True si la position est dans les bornes, False autrement.
 
         """
-        if (position.ligne) >= 0 and (position.ligne) < 8:
-            if (position.colonne) >= 0 and (position.colonne) < 8:
-                return True
+        if 0 <= (position.ligne) <= 7 and 0 <= (position.colonne) <= 7:
+            return True
         else:
             return False
 
@@ -102,25 +101,35 @@ class Damier:
 
         """
         piece = self.recuperer_piece_a_position(position_piece)
-        if piece == None:
-            return False
+        if piece is None:
+            return False  # to check if the position_piece not empty
         if (
             self.position_est_dans_damier(position_cible)
-            and self.recuperer_piece_a_position(position_cible) == None
+            and self.recuperer_piece_a_position(position_cible)
+            is None  # to check if the position_cible exists and it's empty
         ):
-            if piece.est_pion and piece.est_blanche:
+            if piece.est_pion() and piece.est_blanche():
                 if position_cible in Position.positions_diagonales_haut(position_piece):
                     return True
-            elif piece.est_pion and piece.est_noire:
+                else:
+                    return False
+
+            elif piece.est_pion() and piece.est_noire():
                 if position_cible in Position.positions_diagonales_bas(position_piece):
                     return True
-            elif piece.est_dame:
+                else:
+                    return False
+            elif piece.est_dame():
                 if position_cible.ligne != (
                     position_piece.ligne
                 ) and position_cible.colonne != (position_piece.colonne):
                     return True
+                else:
+                    return False
             else:
                 return False
+        else:
+            return False
 
     def piece_peut_sauter_vers(self, position_piece, position_cible):
         """Cette méthode détermine si une pièce (à la position reçue) peut sauter vers une certaine position cible.
@@ -141,11 +150,12 @@ class Damier:
 
         """
         piece = self.recuperer_piece_a_position(position_piece)
-        if piece == None:
-            return False
+        if piece is None:
+            return False  # to check if the position_piece not empty
         if (
             self.position_est_dans_damier(position_cible)
-            and self.recuperer_piece_a_position(position_cible) == None
+            and self.recuperer_piece_a_position(position_cible)
+            is None  # to check if the position_cible exists and it's empty
         ):
             if position_cible in Position.quatre_positions_sauts(position_piece):
                 if (
@@ -176,12 +186,16 @@ class Damier:
                     piece_a_manger = self.recuperer_piece_a_position(
                         Position(position_piece.ligne + 1, position_piece.colonne - 1)
                     )
-            if piece.est_blanche and piece_a_manger.est_noire:
+            else:
+                return False
+            if piece.est_blanche() and piece_a_manger.est_noire():
                 return True
-            elif piece.est_noire and piece_a_manger.est_blanche:
+            elif piece.est_noire() and piece_a_manger.est_blanche():
                 return True
             else:
                 return False
+        else:
+            return False
 
     def piece_peut_se_deplacer(self, position_piece):
         """Vérifie si une pièce à une certaine position a la possibilité de se déplacer (sans faire de saut).
@@ -290,10 +304,57 @@ if __name__ == "__main__":
     print('Test unitaires de la classe "Damier"...')
 
     un_damier = Damier()
-
-    # TODO: À compléter
+    assert un_damier.position_est_dans_damier(position=Position(5, 0)) == True
+    assert un_damier.position_est_dans_damier(position=Position(-1, 0)) == False
+    assert un_damier.position_est_dans_damier(position=Position(0, 8)) == False
+    assert (
+        un_damier.piece_peut_se_deplacer_vers(
+            position_piece=Position(7, 1), position_cible=Position(6, 0)
+        )
+        == False  # position_piece vide
+    )
+    assert (
+        un_damier.piece_peut_se_deplacer_vers(
+            position_piece=Position(6, 1), position_cible=Position(5, 2)
+        )
+        == False  # position_cible occupée
+    )
+    assert (
+        un_damier.piece_peut_se_deplacer_vers(
+            position_piece=Position(5, 0), position_cible=Position(4, 1)
+        )
+        == True  # position_cible vide et piece de type pion et couleur blanc
+    )
+    assert (
+        un_damier.piece_peut_se_deplacer_vers(
+            position_piece=Position(2, 1), position_cible=Position(3, 0)
+        )
+        == True  # position_cible vide et piece de type pion et couleur noire
+    )
+    assert (
+        un_damier.piece_peut_se_deplacer_vers(
+            position_piece=Position(2, 1), position_cible=Position(2, 2)
+        )
+        == False  # position_cible pas dans diagonale
+    )
 
     print("Test unitaires passés avec succès!")
 
     # NOTEZ BIEN: Pour vous aider lors du développement, affichez le damier!
+    un_damier.cases[Position(4, 3)] = Piece(couleur="noir", type_de_piece="pion")
+    print(
+        un_damier.recuperer_piece_a_position(Position(4, 3))
+    )  # we added a pion noir to test piece_peut_sauter_vers
+    print(un_damier)
+    print(Position(5, 0).positions_diagonales_bas())
+    print(Position(5, 0).positions_diagonales_haut())
+    print(Position(5, 0).quatre_positions_diagonales())
+    print(Position(5, 2).quatre_positions_sauts())
+
+    assert (
+        un_damier.piece_peut_sauter_vers(
+            position_piece=Position(5, 2), position_cible=Position(3, 4)
+        )
+        == True
+    )
     print(un_damier)
