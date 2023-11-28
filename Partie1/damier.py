@@ -212,7 +212,38 @@ class Damier:
             bool: True si une pièce est à la position reçue et celle-ci peut se déplacer, False autrement.
 
         """
-        # TODO: À compléter
+        piece = self.recuperer_piece_a_position(position_piece)
+        if piece is None:
+            return False  # to check if the position_piece not empty
+        deplacement_possible = position_piece.quatre_positions_diagonales()
+        if piece.est_pion() and piece.est_blanche():
+            if (
+                self.recuperer_piece_a_position(deplacement_possible[0]) is None
+                or self.recuperer_piece_a_position(deplacement_possible[1]) is None
+            ):
+                return True
+            else:
+                return False
+        elif piece.est_pion() and piece.est_noire():
+            if (
+                self.recuperer_piece_a_position(deplacement_possible[2]) is None
+                or self.recuperer_piece_a_position(deplacement_possible[3]) is None
+            ):
+                return True
+            else:
+                return False
+        elif piece.est_dame:
+            if (
+                self.recuperer_piece_a_position(deplacement_possible[0]) is None
+                or self.recuperer_piece_a_position(deplacement_possible[1]) is None
+                or self.recuperer_piece_a_position(deplacement_possible[2]) is None
+                or self.recuperer_piece_a_position(deplacement_possible[3]) is None
+            ):
+                return True
+            else:
+                return False
+        else:
+            return False
 
     def piece_peut_faire_une_prise(self, position_piece):
         """Vérifie si une pièce à une certaine position a la possibilité de faire une prise.
@@ -382,6 +413,10 @@ if __name__ == "__main__":
         )
         == True
     )
+    assert un_damier.piece_peut_se_deplacer(position_piece=Position(4, 3)) == False
+    assert un_damier.piece_peut_se_deplacer(position_piece=Position(5, 2)) == True
+    assert un_damier.piece_peut_se_deplacer(position_piece=Position(7, 3)) == False
+    assert un_damier.piece_peut_se_deplacer(position_piece=Position(0, 1)) == False
     print("Test unitaires passés avec succès!")
 
     # NOTEZ BIEN: Pour vous aider lors du développement, affichez le damier!
