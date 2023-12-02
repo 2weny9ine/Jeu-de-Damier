@@ -262,7 +262,26 @@ class Damier:
         Returns:
             bool: True si une pièce de la couleur reçue peut faire un déplacement standard, False autrement.
         """
-        # TODO: À compléter
+        peut_deplacer = False
+        positions = list(self.cases.keys())
+        if couleur == "blanc":
+            i = 0
+            while not peut_deplacer and i < 12:
+                if self.cases[positions[i]] == Piece("blanc", "pion"):
+                    if self.piece_peut_se_deplacer(positions[i]):
+                        peut_deplacer = True
+                    i = i + 1
+        elif couleur == "noir":
+            i = 0
+            while not peut_deplacer and i < 12:
+                if self.cases[positions[i]] == Piece("noir", "pion"):
+                    if self.piece_peut_se_deplacer(positions[i]):
+                        peut_deplacer = True
+                i = i + 1
+        if peut_deplacer:
+            return True
+        else:
+            return False
 
     def piece_de_couleur_peut_faire_une_prise(self, couleur):
         """Vérifie si n'importe quelle pièce d'une certaine couleur reçue en argument a la possibilité de faire un
@@ -277,7 +296,26 @@ class Damier:
         Returns:
             bool: True si une pièce de la couleur reçue peut faire un saut (une prise), False autrement.
         """
-        # TODO: À compléter
+        peut_sauter = False
+        positions = list(self.cases.keys())
+        if couleur == "blanc":
+            i = 0
+            while not peut_sauter and i < 12:
+                if self.cases[positions[i]] == Piece("blanc", "pion"):
+                    if self.piece_peut_faire_une_prise(positions[i]):
+                        peut_sauter = True
+                i = i + 1
+        elif couleur == "noir":
+            i = 0
+            while not peut_sauter and i < 12:
+                if self.cases[positions[i]] == Piece("noir", "pion"):
+                    if self.piece_peut_faire_une_prise(positions[i]):
+                        peut_sauter = True
+                i = i + 1
+        if peut_sauter:
+            return True
+        else:
+            return False
 
     def deplacer(self, position_source, position_cible):
         """Effectue le déplacement sur le damier. Si le déplacement est valide, on doit mettre à jour le dictionnaire
@@ -411,6 +449,7 @@ if __name__ == "__main__":
     assert un_damier.piece_peut_faire_une_prise(position_piece=Position(2, 2)) == False
     assert un_damier.piece_peut_faire_une_prise(position_piece=Position(5, 2)) == True
     assert un_damier.piece_peut_faire_une_prise(position_piece=Position(2, 7)) == True
+    assert un_damier.piece_de_couleur_peut_se_deplacer(couleur="blanc") == True
 
     print("Test unitaires passés avec succès!")
     # NOTEZ BIEN: Pour vous aider lors du développement, affichez le damier!
