@@ -120,9 +120,10 @@ class Damier:
                 else:
                     return False
             elif piece.est_dame():
-                if position_cible.ligne != (
-                    position_piece.ligne
-                ) and position_cible.colonne != (position_piece.colonne):
+                if position_cible in (
+                    Position.positions_diagonales_bas(position_piece)
+                    + Position.positions_diagonales_haut(position_piece)
+                ):
                     return True
                 else:
                     return False
@@ -529,6 +530,5 @@ if __name__ == "__main__":
     assert damier_2.deplacer(Position(3, 4), Position(2, 3)) == "ok"
     assert damier_2.deplacer(Position(3, 2), Position(1, 4)) == "prise"
     print(damier_2)
-
     print("Test unitaires passés avec succès!")
     # NOTEZ BIEN: Pour vous aider lors du développement, affichez le damier!
