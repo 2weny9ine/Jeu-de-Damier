@@ -69,7 +69,14 @@ class Position:
             list: La liste des quatre positions.
 
         """
-        return [Position(pos.ligne + 2, pos.colonne + 2) for pos in self.quatre_positions_diagonales()]
+        return [
+            Position(self.ligne - 2, self.colonne - 2),
+            Position(self.ligne - 2, self.colonne + 2),
+            Position(self.ligne + 2, self.colonne - 2),
+            Position(self.ligne + 2, self.colonne + 2)
+        ]
+    #try this if that one doesn't work :
+    # return [Position(self.ligne + i, self.colonne + j) for i in [-2, 2] for j in [-2, 2]]
 
     def __eq__(self, other):
         """Méthode spéciale indiquant à Python comment vérifier si deux positions sont égales. On compare simplement
@@ -99,43 +106,6 @@ class Position:
 if __name__ == '__main__':
     print('Test unitaires de la classe "Position"...')
 
-    class Position:
-        def __init__(self, ligne, colonne):
-            self.ligne, self.colonne = int(ligne), int(colonne)
 
-        def positions_diagonales_bas(self):
-            return [Position(self.ligne + 1, self.colonne - 1), Position(self.ligne + 1, self.colonne + 1)]
-
-        def positions_diagonales_haut(self):
-            return [Position(self.ligne - 1, self.colonne - 1), Position(self.ligne - 1, self.colonne + 1)]
-
-        def quatre_positions_diagonales(self):
-            return self.positions_diagonales_haut() + self.positions_diagonales_bas()
-
-        def quatre_positions_sauts(self):
-            return [Position(pos.ligne + 2, pos.colonne + 2) for pos in self.quatre_positions_diagonales()]
-
-        def __eq__(self, other):
-            return (self.ligne, self.colonne) == (other.ligne, other.colonne)
-
-        def __repr__(self):
-            return f'({self.ligne}, {self.colonne})'
-
-        def __hash__(self):
-            return hash((self.ligne, self.colonne))
-
-    import unittest
-
-    class TestPosition(unittest.TestCase):
-        def test_creation_position(self):
-            pos = Position(2, 3)
-            self.assertEqual(repr(pos), '(2, 3)')
-
-        def test_equality(self):
-            pos1, pos2, pos3 = Position(2, 3), Position(2, 3), Position(4, 5)
-            self.assertEqual(pos1, pos2)
-            self.assertNotEqual(pos1, pos3)
-
-    unittest.main()
     print('Test unitaires passés avec succès!')
 
