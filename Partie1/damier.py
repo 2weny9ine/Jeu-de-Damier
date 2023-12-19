@@ -1,4 +1,4 @@
-# Auteurs: À compléter
+# Auteurs: Mohammed Yacine Rouainia
 
 from piece import Piece
 from position import Position
@@ -340,7 +340,73 @@ class Damier:
                 "erreur" autrement.
 
         """
-        # TODO: À compléter
+        piece_a_deplacer = self.recuperer_piece_a_position(position_source)
+        if self.piece_peut_se_deplacer(
+            position_source
+        ) or self.piece_peut_faire_une_prise(position_source):
+            if self.piece_peut_se_deplacer_vers(position_source, position_cible):
+                self.cases[position_cible] = piece_a_deplacer
+                self.cases.pop(position_source)
+                if piece_a_deplacer.est_pion():
+                    if piece_a_deplacer.est_blanche():
+                        if position_cible.ligne == 0 and position_cible.colonne in (
+                            1,
+                            3,
+                            5,
+                            7,
+                        ):
+                            self.cases[position_cible].promouvoir()
+                    elif piece_a_deplacer.est_noire():
+                        if position_cible.ligne == 7 and position_cible.colonne in (
+                            0,
+                            2,
+                            4,
+                            6,
+                        ):
+                            self.cases[position_cible].promouvoir()
+                return "ok"
+            if self.piece_peut_sauter_vers(position_source, position_cible):
+                self.cases[position_cible] = piece_a_deplacer
+                self.cases.pop(position_source)
+                if position_cible == position_source.quatre_positions_sauts()[0]:
+                    position_mange = Position(
+                        position_source.ligne - 1, position_source.colonne - 1
+                    )
+                elif position_cible == position_source.quatre_positions_sauts()[1]:
+                    position_mange = Position(
+                        position_source.ligne - 1, position_source.colonne + 1
+                    )
+                elif position_cible == position_source.quatre_positions_sauts()[2]:
+                    position_mange = Position(
+                        position_source.ligne + 1, position_source.colonne - 1
+                    )
+                elif position_cible == position_source.quatre_positions_sauts()[3]:
+                    position_mange = Position(
+                        position_source.ligne + 1, position_source.colonne + 1
+                    )
+                self.cases.pop(position_mange)
+                if piece_a_deplacer.est_pion():
+                    if piece_a_deplacer.est_blanche():
+                        if position_cible.ligne == 0 and position_cible.colonne in (
+                            1,
+                            3,
+                            5,
+                            7,
+                        ):
+                            self.cases[position_cible].promouvoir()
+                    elif piece_a_deplacer.est_noire():
+                        if position_cible.ligne == 7 and position_cible.colonne in (
+                            0,
+                            2,
+                            4,
+                            6,
+                        ):
+                            self.cases[position_cible].promouvoir()
+                return "prise"
+            else:
+                return "erreur"
+        else:
+            return "erreur"
 
     def __repr__(self):
         """Cette méthode spéciale permet de modifier le comportement d'une instance de la classe Damier pour
@@ -450,6 +516,19 @@ if __name__ == "__main__":
     assert un_damier.piece_peut_faire_une_prise(position_piece=Position(5, 2)) == True
     assert un_damier.piece_peut_faire_une_prise(position_piece=Position(2, 7)) == True
     assert un_damier.piece_de_couleur_peut_se_deplacer(couleur="blanc") == True
+    damier_2 = Damier()
+    print(damier_2)
+    assert damier_2.deplacer(Position(5, 0), Position(4, 1)) == "ok"
+    assert damier_2.deplacer(Position(5, 0), Position(4, 1)) == "erreur"
+    assert damier_2.deplacer(Position(2, 3), Position(3, 2)) == "ok"
+    assert damier_2.deplacer(Position(4, 1), Position(2, 3)) == "prise"
+    assert damier_2.deplacer(Position(1, 4), Position(3, 2)) == "prise"
+    assert damier_2.deplacer(Position(3, 2), Position(2, 3)) == "erreur"
+    assert damier_2.deplacer(Position(5, 4), Position(4, 3)) == "ok"
+    assert damier_2.deplacer(Position(4, 3), Position(3, 4)) == "ok"
+    assert damier_2.deplacer(Position(3, 4), Position(2, 3)) == "ok"
+    assert damier_2.deplacer(Position(3, 2), Position(1, 4)) == "prise"
+    print(damier_2)
 
     print("Test unitaires passés avec succès!")
     # NOTEZ BIEN: Pour vous aider lors du développement, affichez le damier!
