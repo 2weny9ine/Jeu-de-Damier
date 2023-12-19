@@ -520,14 +520,23 @@ if __name__ == "__main__":
     damier_2 = Damier()
     print(damier_2)
     assert damier_2.deplacer(Position(5, 0), Position(4, 1)) == "ok"
+    print(damier_2)
     assert damier_2.deplacer(Position(5, 0), Position(4, 1)) == "erreur"
+    print(damier_2)
     assert damier_2.deplacer(Position(2, 3), Position(3, 2)) == "ok"
+    print(damier_2)
     assert damier_2.deplacer(Position(4, 1), Position(2, 3)) == "prise"
+    print(damier_2)
     assert damier_2.deplacer(Position(1, 4), Position(3, 2)) == "prise"
+    print(damier_2)
     assert damier_2.deplacer(Position(3, 2), Position(2, 3)) == "erreur"
+    print(damier_2)
     assert damier_2.deplacer(Position(5, 4), Position(4, 3)) == "ok"
+    print(damier_2)
     assert damier_2.deplacer(Position(4, 3), Position(3, 4)) == "ok"
+    print(damier_2)
     assert damier_2.deplacer(Position(3, 4), Position(2, 3)) == "ok"
+    print(damier_2)
     assert damier_2.deplacer(Position(3, 2), Position(1, 4)) == "prise"
     print(damier_2)
     print("Test unitaires passés avec succès!")
