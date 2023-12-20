@@ -63,7 +63,9 @@ class Partie:
             if piece_selectionne.couleur == self.couleur_joueur_courant:
                 if self.doit_prendre:
                     if self.damier.piece_peut_faire_une_prise(position_source):
-                        if position_source == self.position_source_forcee:
+                        if self.position_source_forcee is None:
+                            return True, ""
+                        elif position_source == self.position_source_forcee:
                             return True, ""
                         else:
                             return (
@@ -225,13 +227,39 @@ class Partie:
             print("")
 
         # Demander les positions
-        # TODO: À compléter
+        self.position_source_selectionnee = self.demander_positions_deplacement()[0]
+        position_cible = self.demander_positions_deplacement()[1]
 
         # Effectuer le déplacement (à l'aide de la méthode du damier appropriée)
-        # TODO: À compléter
-
+        self.damier.deplacer(self.position_source_selectionnee, position_cible)
         # Mettre à jour les attributs de la classe
-        # TODO: À compléter
+        if (
+            self.damier.deplacer(self.position_source_selectionnee, position_cible)
+            == "ok"
+        ):
+            if self.couleur_joueur_courant == "blanc":
+                self.couleur_joueur_courant = "noir"
+            else:
+                self.couleur_joueur_courant = "blanc"
+            self.position_source_forcee = None
+            self.doit_prendre = False
+        elif (
+            self.damier.deplacer(self.position_source_selectionnee, position_cible)
+            == "prise"
+        ):
+            if self.damier.piece_peut_faire_une_prise(position_cible):
+                self.doit_prendre = True
+                self.position_source_forcee = position_cible
+            else:
+                if self.couleur_joueur_courant == "blanc":
+                    self.couleur_joueur_courant = "noir"
+                else:
+                    self.couleur_joueur_courant = "blanc"
+                self.position_source_forcee = None
+                self.doit_prendre = False
+        else:
+            self.position_source_selectionnee = self.demander_positions_deplacement()[0]
+            position_cible = self.demander_positions_deplacement()[1]
 
     def jouer(self):
         """Démarre une partie. Tant que le joueur courant a des déplacements possibles (utilisez les méthodes
