@@ -1,7 +1,7 @@
 # Auteurs: Mohammed Yacine Rouainia
 
-from damier import Damier
-from position import Position
+from Partie1.damier import Damier
+from Partie1.position import Position
 
 
 class Partie:
