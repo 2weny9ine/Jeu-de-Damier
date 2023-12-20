@@ -1,7 +1,7 @@
 # Auteurs: Mohammed Yacine Rouainia
 
-from Partie1.piece import Piece
-from Partie1.position import Position
+from piece import Piece
+from position import Position
 
 
 class Damier:
@@ -267,15 +267,15 @@ class Damier:
         positions = list(self.cases.keys())
         if couleur == "blanc":
             i = 0
-            while not peut_deplacer and i < 12:
-                if self.cases[positions[i]] == Piece("blanc", "pion"):
+            while not peut_deplacer and i < len(positions):
+                if self.cases[positions[i]].est_blanche():
                     if self.piece_peut_se_deplacer(positions[i]):
                         peut_deplacer = True
                     i = i + 1
         elif couleur == "noir":
             i = 0
-            while not peut_deplacer and i < 12:
-                if self.cases[positions[i]] == Piece("noir", "pion"):
+            while not peut_deplacer and i < len(positions):
+                if self.cases[positions[i]].est_noire():
                     if self.piece_peut_se_deplacer(positions[i]):
                         peut_deplacer = True
                 i = i + 1
@@ -301,15 +301,15 @@ class Damier:
         positions = list(self.cases.keys())
         if couleur == "blanc":
             i = 0
-            while not peut_sauter and i < 12:
-                if self.cases[positions[i]] == Piece("blanc", "pion"):
+            while not peut_sauter and i < len(positions):
+                if self.cases[positions[i]].est_blanche():
                     if self.piece_peut_faire_une_prise(positions[i]):
                         peut_sauter = True
                 i = i + 1
         elif couleur == "noir":
             i = 0
-            while not peut_sauter and i < 12:
-                if self.cases[positions[i]] == Piece("noir", "pion"):
+            while not peut_sauter and i < len(positions):
+                if self.cases[positions[i]].est_noire():
                     if self.piece_peut_faire_une_prise(positions[i]):
                         peut_sauter = True
                 i = i + 1

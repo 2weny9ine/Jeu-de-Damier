@@ -1,7 +1,7 @@
 # Auteurs: Mohammed Yacine Rouainia
 
-from Partie1.damier import Damier
-from Partie1.position import Position
+from damier import Damier
+from position import Position
 
 
 class Partie:
@@ -99,7 +99,17 @@ class Partie:
         if self.damier.position_est_dans_damier(position_cible):
             if self.damier.recuperer_piece_a_position(position_cible) is None:
                 if self.doit_prendre:
-                    if self.damier.piece_peut_sauter_vers(
+                    if self.position_source_forcee is None:
+                        if self.damier.piece_peut_sauter_vers(
+                            self.position_source_selectionnee, position_cible
+                        ):
+                            return True, ""
+                        else:
+                            return (
+                                False,
+                                "Erreur:tu peux pas deplacer ici y'a une prise obligatoire",
+                            )
+                    elif self.damier.piece_peut_sauter_vers(
                         self.position_source_forcee, position_cible
                     ):
                         return True, ""
@@ -124,58 +134,6 @@ class Partie:
         else:
             return False, "Erreur:position invalide"
 
-    def selectionner_piece(self, text):
-        """
-         Cette méthode continue de demander des coordonnées jusqu'à ce qu'une position valide soit entrée. Si les valeurs
-         entrées ne sont pas numériques ou si la position n'est pas valide, un message d'erreur approprié est affiché et
-         l'utilisateur est invité à réessayer.
-
-        Parameters:
-            text (str): Un message à afficher avant de demander les coordonnées de la pièce.
-
-        Returns:
-           Position: Position source valide.
-
-        """
-        print(text)
-        while True:
-            ligne = input("Ligne (entre 0 et 7): ")
-            colonne = input("Colonne (entre 0 et 7): ")
-            if ligne.isnumeric() and colonne.isnumeric():
-                position_piece = Position(int(ligne), int(colonne))
-                if self.position_source_valide(position_piece):
-                    return position_piece
-                else:
-                    print("Position sélectionnée invalide")
-            else:
-                print("Valeur entrée invalide")
-
-    def selectionner_cible(self, text):
-        """
-         Cette méthode continue de demander des coordonnées jusqu'à ce qu'une position cible valide soit entrée. Si les valeurs
-         entrées ne sont pas numériques ou si la position cible n'est pas valide, un message d'erreur approprié est affiché et
-         l'utilisateur est invité à réessayer.
-
-        Parameters:
-            text (str): Un message à afficher avant de demander les coordonnées de la pièce.
-
-        Returns:
-           Position: Position cible valide.
-
-        """
-        print(text)
-        while True:
-            ligne = input("Ligne (entre 0 et 7): ")
-            colonne = input("Colonne (entre 0 et 7): ")
-            if ligne.isnumeric() and colonne.isnumeric():
-                position_cible = Position(int(ligne), int(colonne))
-                if self.position_cible_valide(position_cible):
-                    return position_cible
-                else:
-                    print("Position sélectionnée invalide")
-            else:
-                print("Valeur entrée invalide")
-
     def demander_positions_deplacement(self):
         """Demande à l'utilisateur les positions sources et cible, et valide ces positions. Cette méthode doit demander
         les positions à l'utilisateur tant que celles-ci sont invalides.
@@ -186,8 +144,31 @@ class Partie:
             Position, Position: Un couple de deux positions (source et cible).
 
         """
-        position_piece = self.selectionner_piece("Sélectionner la position du piece")
-        position_cible = self.selectionner_cible("Sélectionner la position cible")
+        print("Sélectionner la position du piece:")
+        while True:
+            ligne = input("Ligne: ")
+            colonne = input("Colonne: ")
+            if ligne.isnumeric() and colonne.isnumeric():
+                position_piece = Position(int(ligne), int(colonne))
+                if self.position_source_valide(position_piece)[0]:
+                    self.position_source_selectionnee = position_piece
+                    break
+                else:
+                    print(self.position_source_valide(position_piece)[1])
+            else:
+                print("Valeur entrée invalide")
+        print("Sélectionner la position cible:")
+        while True:
+            ligne = input("Ligne: ")
+            colonne = input("Colonne: ")
+            if ligne.isnumeric() and colonne.isnumeric():
+                position_cible = Position(int(ligne), int(colonne))
+                if self.position_cible_valide(position_cible)[0]:
+                    break
+                else:
+                    print(self.position_cible_valide(position_cible)[1])
+            else:
+                print("Valeur entrée invalide")
         return position_piece, position_cible
 
     def tour(self):
@@ -208,6 +189,7 @@ class Partie:
         if self.damier.piece_de_couleur_peut_faire_une_prise(
             self.couleur_joueur_courant
         ):
+            print("yessssss")
             self.doit_prendre = True
 
         # Affiche l'état du jeu
@@ -215,6 +197,7 @@ class Partie:
         print("")
         print("Tour du joueur", self.couleur_joueur_courant, end=".")
         if self.doit_prendre:
+            print("A")
             if self.position_source_forcee is None:
                 print(" Doit prendre une pièce.")
             else:
@@ -227,26 +210,27 @@ class Partie:
             print("")
 
         # Demander les positions
-        self.position_source_selectionnee = self.demander_positions_deplacement()[0]
-        position_cible = self.demander_positions_deplacement()[1]
-
+        (
+            self.position_source_selectionnee,
+            position_cible,
+        ) = self.demander_positions_deplacement()
         # Effectuer le déplacement (à l'aide de la méthode du damier appropriée)
-        self.damier.deplacer(self.position_source_selectionnee, position_cible)
+        print("selected")
+        deplacement = self.damier.deplacer(
+            self.position_source_selectionnee, position_cible
+        )
+
         # Mettre à jour les attributs de la classe
-        if (
-            self.damier.deplacer(self.position_source_selectionnee, position_cible)
-            == "ok"
-        ):
+        if deplacement == "ok":
+            print(deplacement)
             if self.couleur_joueur_courant == "blanc":
                 self.couleur_joueur_courant = "noir"
             else:
                 self.couleur_joueur_courant = "blanc"
             self.position_source_forcee = None
             self.doit_prendre = False
-        elif (
-            self.damier.deplacer(self.position_source_selectionnee, position_cible)
-            == "prise"
-        ):
+        elif deplacement == "prise":
+            print(deplacement)
             if self.damier.piece_peut_faire_une_prise(position_cible):
                 self.doit_prendre = True
                 self.position_source_forcee = position_cible
@@ -258,8 +242,7 @@ class Partie:
                 self.position_source_forcee = None
                 self.doit_prendre = False
         else:
-            self.position_source_selectionnee = self.demander_positions_deplacement()[0]
-            position_cible = self.demander_positions_deplacement()[1]
+            print("erreur")
 
     def jouer(self):
         """Démarre une partie. Tant que le joueur courant a des déplacements possibles (utilisez les méthodes
