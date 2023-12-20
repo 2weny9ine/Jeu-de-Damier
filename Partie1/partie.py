@@ -1,7 +1,7 @@
 # Auteurs: À compléter
 
-from Partie1.damier import Damier
-from Partie1.position import Position
+from damier import Damier
+from position import Position
 
 
 class Partie:
@@ -58,7 +58,30 @@ class Partie:
                  deuxième élément est un message d'erreur (ou une chaîne vide s'il n'y a pas d'erreur).
 
         """
-        # TODO: À compléter
+        piece_selectionne = self.damier.recuperer_piece_a_position(position_source)
+        if piece_selectionne is not None:
+            if piece_selectionne.couleur == self.couleur_joueur_courant:
+                if self.doit_prendre:
+                    if self.damier.piece_peut_faire_une_prise(position_source):
+                        if position_source == self.position_source_forcee:
+                            return True, ""
+                        else:
+                            return (
+                                False,
+                                "Erreur:une prise forcée doit etre effectuée",
+                            )
+                    else:
+                        return False, "Erreur:une prise forcée doit etre effectuée"
+                elif self.damier.piece_peut_faire_une_prise(
+                    position_source
+                ) or self.damier.piece_peut_se_deplacer(position_source):
+                    return True, ""
+                else:
+                    return False, "Erreur:piece ne peut ni deplacer ni faire une prise"
+            else:
+                return False, "Erreur:piece selectionnée est du couleur adverse"
+        else:
+            return False, "Erreur:position vide/n'existe pas"
 
     def position_cible_valide(self, position_cible):
         """Vérifie si la position cible est valide (en fonction de la position source sélectionnée). Doit non seulement
@@ -71,7 +94,85 @@ class Partie:
                 a pas d'erreur).
 
         """
-        # TODO: À compléter
+        if self.damier.position_est_dans_damier(position_cible):
+            if self.damier.recuperer_piece_a_position(position_cible) is None:
+                if self.doit_prendre:
+                    if self.damier.piece_peut_sauter_vers(
+                        self.position_source_forcee, position_cible
+                    ):
+                        return True, ""
+                    else:
+                        return (
+                            False,
+                            "Erreur:tu peux pas deplacer ici y'a une prise obligatoire",
+                        )
+                else:
+                    if self.damier.piece_peut_sauter_vers(
+                        self.position_source_selectionnee, position_cible
+                    ):
+                        return True, ""
+                    elif self.damier.piece_peut_se_deplacer_vers(
+                        self.position_source_selectionnee, position_cible
+                    ):
+                        return True, ""
+                    else:
+                        return False, "Erreur:piece ne peut deplacer/sauter ici"
+            else:
+                return False, "Erreur:position occupée"
+        else:
+            return False, "Erreur:position invalide"
+
+    def selectionner_piece(self, text):
+        """
+         Cette méthode continue de demander des coordonnées jusqu'à ce qu'une position valide soit entrée. Si les valeurs
+         entrées ne sont pas numériques ou si la position n'est pas valide, un message d'erreur approprié est affiché et
+         l'utilisateur est invité à réessayer.
+
+        Parameters:
+            text (str): Un message à afficher avant de demander les coordonnées de la pièce.
+
+        Returns:
+           Position: Position source valide.
+
+        """
+        print(text)
+        while True:
+            ligne = input("Ligne (entre 0 et 7): ")
+            colonne = input("Colonne (entre 0 et 7): ")
+            if ligne.isnumeric() and colonne.isnumeric():
+                position_piece = Position(int(ligne), int(colonne))
+                if self.position_source_valide(position_piece):
+                    return position_piece
+                else:
+                    print("Position sélectionnée invalide")
+            else:
+                print("Valeur entrée invalide")
+
+    def selectionner_cible(self, text):
+        """
+         Cette méthode continue de demander des coordonnées jusqu'à ce qu'une position cible valide soit entrée. Si les valeurs
+         entrées ne sont pas numériques ou si la position cible n'est pas valide, un message d'erreur approprié est affiché et
+         l'utilisateur est invité à réessayer.
+
+        Parameters:
+            text (str): Un message à afficher avant de demander les coordonnées de la pièce.
+
+        Returns:
+           Position: Position cible valide.
+
+        """
+        print(text)
+        while True:
+            ligne = input("Ligne (entre 0 et 7): ")
+            colonne = input("Colonne (entre 0 et 7): ")
+            if ligne.isnumeric() and colonne.isnumeric():
+                position_cible = Position(int(ligne), int(colonne))
+                if self.position_cible_valide(position_cible):
+                    return position_cible
+                else:
+                    print("Position sélectionnée invalide")
+            else:
+                print("Valeur entrée invalide")
 
     def demander_positions_deplacement(self):
         """Demande à l'utilisateur les positions sources et cible, et valide ces positions. Cette méthode doit demander
@@ -83,7 +184,9 @@ class Partie:
             Position, Position: Un couple de deux positions (source et cible).
 
         """
-        # TODO: À compléter
+        position_piece = self.selectionner_piece("Sélectionner la position du piece")
+        position_cible = self.selectionner_cible("Sélectionner la position cible")
+        return position_piece, position_cible
 
     def tour(self):
         """Cette méthode effectue le tour d'un joueur, et doit effectuer les actions suivantes:
