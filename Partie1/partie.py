@@ -1,4 +1,4 @@
-# Auteurs: À compléter
+# Auteurs: Mohammed Yacine Rouainia
 
 from damier import Damier
 from position import Position
