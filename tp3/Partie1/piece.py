@@ -9,6 +9,7 @@ class Piece:
         type_de_piece (str): Le type de pièce. Les deux valeurs possibles sont 'pion' et 'dame'.
 
     """
+
     def __init__(self, couleur, type_de_piece):
         """Constructeur de la classe Piece. Initialise les deux attributs de la classe.
 
@@ -57,17 +58,17 @@ class Piece:
         return self.couleur == "noir"
 
     def promouvoir(self):
-        """Cette méthode permet de promouvoir une pièce, c'est à dire la transformer en dame.
-
-        """
+        """Cette méthode permet de promouvoir une pièce, c'est à dire la transformer en dame."""
         self.type_de_piece = "dame"
-	
+
     def __eq__(self, other):
         """Méthode spéciale indiquant à Python comment vérifier si deux pièces sont égales. On compare simplement
         la couleur et le type de l'objet actuel (self) et de l'autre objet (other).
 
         """
-        return self.couleur == other.couleur and self.type_de_piece == other.type_de_piece
+        return (
+            self.couleur == other.couleur and self.type_de_piece == other.type_de_piece
+        )
 
     def __repr__(self):
         """Méthode spéciale indiquant à Python comment représenter une instance de Piece sous la forme d'une chaîne
@@ -84,10 +85,10 @@ class Piece:
             return "X"
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print('Test unitaires de la classe "Piece"...')
 
-    une_piece = Piece('blanc', 'pion')
+    une_piece = Piece("blanc", "pion")
     assert une_piece.est_pion()
     assert not une_piece.est_dame()
     assert une_piece.est_blanche()
@@ -99,4 +100,4 @@ if __name__ == '__main__':
     assert une_piece.est_blanche()
     assert not une_piece.est_noire()
 
-    print('Test unitaires passés avec succès!')
+    print("Test unitaires passés avec succès!")

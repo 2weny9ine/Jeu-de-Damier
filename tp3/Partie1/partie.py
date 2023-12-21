@@ -1,7 +1,10 @@
 # Auteurs: Mohammed Yacine Rouainia
+import sys
 
-from damier import Damier
-from position import Position
+sys.path.append("C:/Users/2weny9ine/Desktop/study/IFT 1004 programmation intro/tp3")
+
+from tp3.Partie1.damier import Damier
+from tp3.Partie1.position import Position
 
 
 class Partie:
@@ -189,7 +192,6 @@ class Partie:
         if self.damier.piece_de_couleur_peut_faire_une_prise(
             self.couleur_joueur_courant
         ):
-            print("yessssss")
             self.doit_prendre = True
 
         # Affiche l'état du jeu
@@ -197,7 +199,6 @@ class Partie:
         print("")
         print("Tour du joueur", self.couleur_joueur_courant, end=".")
         if self.doit_prendre:
-            print("A")
             if self.position_source_forcee is None:
                 print(" Doit prendre une pièce.")
             else:
@@ -215,7 +216,6 @@ class Partie:
             position_cible,
         ) = self.demander_positions_deplacement()
         # Effectuer le déplacement (à l'aide de la méthode du damier appropriée)
-        print("selected")
         deplacement = self.damier.deplacer(
             self.position_source_selectionnee, position_cible
         )
