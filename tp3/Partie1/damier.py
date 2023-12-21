@@ -1,7 +1,10 @@
 # Auteurs: Mohammed Yacine Rouainia
+import sys
 
-from piece import Piece
-from position import Position
+sys.path.append("C:/Users/2weny9ine/Desktop/study/IFT 1004 programmation intro/tp3")
+
+from tp3.Partie1.piece import Piece
+from tp3.Partie1.position import Position
 
 
 class Damier:

@@ -1,9 +1,13 @@
 # Auteurs: Hadjer Laimeche
-# interface_dames.py
+
+import sys
+
+sys.path.append("C:/Users/2weny9ine/Desktop/study/IFT 1004 programmation intro/tp3")
+
 from tkinter import Tk, Label, Button, NSEW
-from canvas_damier import CanvasDamier
-from Partie1.partie import Partie
-from Partie1.position import Position
+from tp3.Partie2.canvas_damier import CanvasDamier
+from tp3.Partie1.partie import Partie
+from tp3.Partie1.position import Position
 
 
 class FenetrePartie(Tk):
@@ -205,18 +209,26 @@ class FenetrePartie(Tk):
             self.messages["foreground"] = "black"
             self.messages[
                 "text"
-            ] = "Prise multiple possible, continuez avec la pièce en position   {}  ".format(
+            ] = "Prise multiple possible, continuez avec la pièce en position  {}  ".format(
                 position_cible
             )
             self.partie.position_source_selectionnee = None
         else:
             self.changer_tour()
-            self.messages["foreground"] = "black"
-            self.messages[
-                "text"
-            ] = "Prise réussie,Tour du joueur: {} ---> Une prise obligatoire doit etre effectuée".format(
+            if self.partie.damier.piece_de_couleur_peut_faire_une_prise(
                 self.partie.couleur_joueur_courant
-            )
+            ):
+                self.messages["foreground"] = "black"
+                self.messages[
+                    "text"
+                ] = "Prise réussie,Tour du joueur: {} ---> Une prise obligatoire doit etre effectuée".format(
+                    self.partie.couleur_joueur_courant
+                )
+            else:
+                self.messages["foreground"] = "black"
+                self.messages["text"] = "Prise réussie,Tour du joueur: {}".format(
+                    self.partie.couleur_joueur_courant
+                )
             self.partie.position_source_forcee = None
             self.partie.doit_prendre = False
             self.partie.position_source_selectionnee = None
