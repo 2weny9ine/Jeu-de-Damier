@@ -13,8 +13,9 @@ class FenetrePartie(Tk):
         partie (Partie): Le gestionnaire de la partie de dame
         canvas_damier (CanvasDamier): Le «widget» gérant l'affichage du damier à l'écran
         messages (Label): Un «widget» affichant des messages textes à l'utilisateur du programme
-
-        TODO: AJOUTER VOS PROPRES ATTRIBUTS ICI!
+        quit_button (Button): Un bouton permettant à l'utilisateur de quitter le jeu. Lorsqu'il est cliqué, il déclenche la fermeture de l'interface graphique.
+        new_game_button (Button): Un bouton qui permet de démarrer une nouvelle partie. En cliquant dessus, l'état du jeu est réinitialisé et une nouvelle partie commence.
+        gagnant_overlay (Label): Un «widget» label utilisé pour afficher le gagnant de la partie à la fin du jeu. Il apparaît au-dessus de tous les autres éléments de l'interface pour annoncer le gagnant.
     """
 
     def __init__(self):
